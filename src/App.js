@@ -1,43 +1,30 @@
 import React from "react";
 import Result from "./Result";
 import Game from "./Game";
+import questions from "./Questions";
 import "./index.scss";
-
-const questions = [
-  {
-    title: "React is ... ?",
-    variants: ["library", "framework", "application"],
-    correct: 0,
-  },
-  {
-    title: "Component is ... ",
-    variants: [
-      "application",
-      "part of application or web page",
-      "I have no any idea",
-    ],
-    correct: 1,
-  },
-  {
-    title: "What is JSX?",
-    variants: [
-      "It is simple HTML",
-      "It is a function",
-      "It is a same HTML, but with an option to run JS-code",
-    ],
-    correct: 2,
-  },
-];
 
 function App() {
   const [step, setStep] = React.useState(0);
+  const [correct, setCorrect] = React.useState(0);
   const question = questions[step];
-  console.log(question);
+
+  const onClickVariant = (index) => {
+    console.log(step, index);
+    setStep(step + 1);
+
+    if (index === question.correct) {
+      setCorrect(correct + 1);
+    }
+  };
 
   return (
     <div className="App">
-      <Game question={question} />
-      {/* <Result /> */}
+      {step != questions.length ? (
+        <Game step={step} question={question} onClickVariant={onClickVariant} />
+      ) : (
+        <Result correct={correct} />
+      )}
     </div>
   );
 }
